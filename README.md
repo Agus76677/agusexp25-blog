@@ -1,4 +1,4 @@
-# hana-blog
+# agusexp25-blog
 
 面向个人博客站点的 Astro 项目。这个 README 的目标不是介绍博客本身，而是让协作 Agent 在尽量少读文件的前提下，快速知道：
 
@@ -159,22 +159,28 @@ comment: true
 
 ## 6. 常用命令
 
-`package.json` 里定义的是标准 npm scripts，可用 `npm run`、`pnpm` 或 `bun` 触发。最常用的是：
+`package.json` 里定义的是标准 npm scripts，本项目统一使用 `pnpm` 触发。最常用的是：
 
-```bash
-npm run dev
-npm run check
-npm run build
-npm run lint
-npm run format
+```text
+pnpm dev
+pnpm check
+pnpm build
+pnpm lint
+pnpm format
 ```
 
 补充：
 
-- 开发预览：`npm run dev`
-- 类型/内容检查：`npm run check`
-- 生产构建：`npm run build`
-- 全量整理：`npm run quality`
+- 开发预览：`pnpm dev`
+- 类型/内容检查：`pnpm check`
+- 生产构建：`pnpm build`
+- 全量整理：`pnpm quality`
+
+### 修改后发布
+
+修改完成后，先用 `pnpm deploy:check` 做一次本地 GitHub Pages 构建检查；确认无误后
+运行 `pnpm deploy`。脚本会自动提交并推送当前修改到 `main`，随后由 GitHub Actions 发布到
+`https://agusexp25.top`。如果没有需要提交的新改动，脚本仍会把本地尚未推送的 commit 推到远端。
 
 ## 7. 修改后校验建议
 
@@ -183,9 +189,9 @@ npm run format
 - 文案、小型静态页改动：
   - 定位性 grep / diff 即可
 - 组件结构、页面引用、类型相关改动：
-  - `npm run check`
+  - `pnpm check`
 - 配置、插件、构建链路、路由相关改动：
-  - `npm run build`
+  - `pnpm build`
 
 ## 8. 部署和运行方式
 
@@ -236,6 +242,19 @@ jsDelivr CDN 访问。
 ```bash
 PICX_GITHUB_TOKEN=你的_GitHub_token
 ```
+
+### 鼠标双击上传（最简单）
+
+不想敲命令时，直接用项目根目录的 **`上传图片.cmd`**（Windows）：
+
+- **双击**它 → 弹出文件选择框 → 选一张或多张图片（按住 Ctrl / Shift 多选）→ 自动转换并上传；
+- 或者把图片 / 文件夹**直接拖到** `上传图片.cmd` 图标上，松手即上传。
+
+上传完成后窗口会停住，把打印出来的 `https://pic.agusexp25.top/...` 链接复制到 Markdown 即可。
+它内部调用的还是下面的 `scripts/upload-images.mjs`，只是加了一个鼠标入口，因此同样需要先配好
+`.env` 里的 `PICX_GITHUB_TOKEN`。
+
+### 命令行上传
 
 先用 dry-run 检查转换结果：
 

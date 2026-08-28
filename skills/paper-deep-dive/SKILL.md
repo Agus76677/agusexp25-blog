@@ -1,6 +1,6 @@
 ---
 name: paper-deep-dive
-description: Generate and revise Embodied AI paper deep dive blog posts in the hana-blog repository. Use when the user provides a paper and optional code/project/dataset links and wants a one-paper-per-post Chinese blog in the Paper Deep Dive collection, or when the user asks to improve or rewrite an existing paper-deep-dive-* post based on reader feedback.
+description: Generate and revise Embodied AI paper deep dive blog posts in the agusexp25-blog repository. Use when the user provides a paper and optional code/project/dataset links and wants a one-paper-per-post Chinese blog in the Paper Deep Dive collection, or when the user asks to improve or rewrite an existing paper-deep-dive-* post based on reader feedback.
 ---
 
 # Paper Deep Dive

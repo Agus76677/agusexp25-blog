@@ -2,6 +2,7 @@
   "name": "astro-theme-axi",
   "type": "module",
   "version": "4.0.1-beta",
+  "packageManager": "pnpm@11.19.0",
   "scripts": {
     "dev": "astro dev",
     "dev:check": "astro check --watch & astro dev",
@@ -15,6 +16,8 @@
     "check": "astro check",
     "astro": "astro",
     "images:upload": "node scripts/upload-images.mjs",
+    "deploy": "node scripts/deploy.mjs",
+    "deploy:check": "node scripts/deploy.mjs --dry-run",
     "format": "prettier --write '**/*.{js,jsx,ts,tsx,md,mdx,astro}'",
     "lint": "eslint --fix 'src/**/*.{js,ts,jsx,tsx,astro}'",
     "lint:check": "eslint 'src/**/*.{js,ts,jsx,tsx,astro}'",

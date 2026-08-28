@@ -244,7 +244,7 @@ const main = async () => {
     throw new Error('没有找到支持的图片（支持 .png、.jpg、.jpeg、.webp、.avif）')
   }
 
-  const tempRoot = await mkdtemp(path.join(os.tmpdir(), 'hana-blog-image-host-'))
+  const tempRoot = await mkdtemp(path.join(os.tmpdir(), 'agusexp25-blog-image-host-'))
   let keepTemp = options.keepTemp
 
   try {

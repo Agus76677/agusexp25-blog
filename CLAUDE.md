@@ -5,23 +5,35 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Development Commands
 
 ### Essential Commands
-- `bun dev` - Start development server with hot reload
-- `bun dev:check` - Development server with TypeScript checking
-- `bun build` - Production build with type checking
-- `bun check` - Run Astro type checking
-- `bun lint` - ESLint with auto-fix
-- `bun format` - Prettier formatting for all files
-- `bun yijiansilian` - Run all checks (lint + sync + check + format)
+- `pnpm dev` - Start development server with hot reload
+- `pnpm dev:check` - Development server with TypeScript checking
+- `pnpm build` - Production build with type checking
+- `pnpm check` - Run Astro type checking
+- `pnpm lint` - ESLint with auto-fix
+- `pnpm format` - Prettier formatting for all files
+- `pnpm yijiansilian` - Run all checks (lint + sync + check + format)
 
 ### Platform-Specific Builds
-- `bun build:vercel` - Build for Vercel deployment
-- `bun build:cloudflare` - Build for Cloudflare Pages
-- `bun build:github` - Build for GitHub Pages
+- `pnpm build:vercel` - Build for Vercel deployment
+- `pnpm build:cloudflare` - Build for Cloudflare Pages
+- `pnpm build:github` - Build for GitHub Pages
 
 ### Utility Commands
-- `bun sync` - Sync Astro content collections
-- `bun preview` - Preview production build locally
-- `bun clean` - Remove build artifacts (.astro, .vercel, dist, .wrangler directories)
+- `pnpm sync` - Sync Astro content collections
+- `pnpm preview` - Preview production build locally
+- `pnpm clean` - Remove build artifacts (.astro, .vercel, dist, .wrangler directories)
+
+This repository uses pnpm. Bun is not installed or required. On Windows, do not use
+`npx --yes pnpm@latest install` or pipe an install command through `tail`, because the
+non-interactive shell can hide the real exit status. If `node_modules` was created before
+the project folder was renamed, repair its junctions with:
+
+```bash
+pnpm install --frozen-lockfile --config.confirmModulesPurge=false
+```
+
+After local edits, use `pnpm deploy:check` to build without pushing, or `pnpm deploy` to
+commit and push `main`. GitHub Actions publishes the site after the push.
 
 ## Architecture Overview
 
@@ -178,11 +190,11 @@ Set `DEPLOYMENT_PLATFORM` to control build behavior:
 ## Troubleshooting
 
 ### Build Issues
-- Run `bun check` to verify TypeScript issues
-- Use `bun sync` to regenerate content collections
+- Run `pnpm check` to verify TypeScript issues
+- Use `pnpm sync` to regenerate content collections
 - Check frontmatter validation in blog posts
 
 ### Development Server Issues
-- Use `bun dev:check` for real-time type checking
-- Clear build cache with `bun clean`
+- Use `pnpm dev:check` for real-time type checking
+- Clear build cache with `pnpm clean`
 - Ensure all required environment variables are set
