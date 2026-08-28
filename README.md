@@ -256,7 +256,7 @@ pnpm images:upload -- ./path/to/images
 pnpm images:upload -- --quality 85 --remote-dir pictures ./path/to/images
 ```
 
-默认输出链接前缀是 `https://cdn.jsdelivr.net/gh/Agus76677/picx-images-hosting@master`。
+默认输出链接前缀是 `https://pic.agusexp25.top`。
 如需更换图床仓库、分支或链接前缀，可使用 `--repo`、`--branch`、`--pages-branch`、
 `--base-url`，或设置对应的 `PICX_REPO`、`PICX_BRANCH`、`PICX_PAGES_BRANCH`、
 `PICX_BASE_URL` 环境变量。如果只使用 GitHub Raw 或 jsDelivr 链接，可以加 `--no-pages`

@@ -106,8 +106,8 @@ Central configuration that controls:
 
 ### Image Hosting
 - Images are hosted in the GitHub repo `Agus76677/picx-images-hosting` (PicX-style)
-  and served via jsDelivr CDN.
-- Use the prefix `https://cdn.jsdelivr.net/gh/Agus76677/picx-images-hosting@master/`
+  and served via GitHub Pages on the custom domain `pic.agusexp25.top`.
+- Use the prefix `https://pic.agusexp25.top/`
   for image URLs in content (e.g. `.../pictures/<name>.<hash>.webp`).
 - Batch upload with `pnpm images:upload -- <files/dirs>` (see README section 11).
   The GitHub token is read from the gitignored `.env` (`PICX_GITHUB_TOKEN`), never

@@ -21,7 +21,7 @@ if (typeof process.loadEnvFile === 'function' && existsSync(envPath)) {
 
 const DEFAULT_REPO = 'https://github.com/Agus76677/picx-images-hosting.git'
 const DEFAULT_BRANCH = 'master'
-const DEFAULT_BASE_URL = 'https://cdn.jsdelivr.net/gh/Agus76677/picx-images-hosting@master'
+const DEFAULT_BASE_URL = 'https://pic.agusexp25.top'
 const IMAGE_EXTENSIONS = new Set(['.avif', '.jpeg', '.jpg', '.png', '.webp'])
 
 const printHelp = () => {
