@@ -1,13 +1,27 @@
 #!/usr/bin/env node
 import { execFileSync, spawnSync } from 'node:child_process'
+import { existsSync } from 'node:fs'
 import { mkdir, mkdtemp, readdir, rm, stat } from 'node:fs/promises'
 import os from 'node:os'
 import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 import sharp from 'sharp'
 
-const DEFAULT_REPO = 'git@github.com:Minakanmi-Yuki/picx-images-hosting.git'
+// Load the project-root .env (gitignored) so PICX_GITHUB_TOKEN and friends are
+// available without manually exporting them. Silently ignore if absent.
+const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
+const envPath = path.join(projectRoot, '.env')
+if (typeof process.loadEnvFile === 'function' && existsSync(envPath)) {
+  try {
+    process.loadEnvFile(envPath)
+  } catch {
+    // ignore malformed .env; env vars can still be provided by the shell
+  }
+}
+
+const DEFAULT_REPO = 'https://github.com/Agus76677/picx-images-hosting.git'
 const DEFAULT_BRANCH = 'master'
-const DEFAULT_BASE_URL = 'https://pic.hana0721.top'
+const DEFAULT_BASE_URL = 'https://cdn.jsdelivr.net/gh/Agus76677/picx-images-hosting@master'
 const IMAGE_EXTENSIONS = new Set(['.avif', '.jpeg', '.jpg', '.png', '.webp'])
 
 const printHelp = () => {
@@ -197,6 +211,20 @@ const toUrl = (baseUrl, relativePath) => {
   return `${baseUrl.replace(/\/+$/, '')}/${encodedPath}`
 }
 
+// If a GitHub token is provided (via PICX_GITHUB_TOKEN / GITHUB_TOKEN), inject it
+// into an https GitHub remote so clone/push can authenticate without SSH keys.
+// The token is read from the environment only — it is never written to disk or
+// printed. The token is stripped from any URL before logging.
+const withTokenAuth = (repoUrl) => {
+  const token = process.env.PICX_GITHUB_TOKEN || process.env.GITHUB_TOKEN || ''
+  if (!token) return repoUrl
+  const match = repoUrl.match(/^https:\/\/github\.com\/(.+)$/)
+  if (!match) return repoUrl
+  return `https://x-access-token:${token}@github.com/${match[1]}`
+}
+
+const stripToken = (value) => value.replace(/x-access-token:[^@]+@/g, '')
+
 const main = async () => {
   const options = parseArgs(process.argv.slice(2))
   options.remoteDir = normalizeRemoteDir(options.remoteDir)
@@ -221,14 +249,18 @@ const main = async () => {
 
   try {
     const workingTree = path.join(tempRoot, 'repo')
+    const authedRepo = withTokenAuth(options.repo)
     if (options.dryRun) {
       await mkdir(workingTree, { recursive: true })
     } else {
       console.log(`正在 clone 图床仓库（${options.branch}）...`)
       runGit(
-        ['clone', '--depth', '1', '--branch', options.branch, options.repo, workingTree],
+        ['clone', '--depth', '1', '--branch', options.branch, authedRepo, workingTree],
         tempRoot
       )
+      // Reset origin to a token-free URL so the credential is not persisted in
+      // the temp repo's .git/config. Pushes below pass the authed URL explicitly.
+      runGit(['remote', 'set-url', 'origin', options.repo], workingTree)
       prepareGitIdentity(workingTree)
     }
 
@@ -261,7 +293,7 @@ const main = async () => {
       runGit(['add', '--', ...relativePaths], workingTree)
       runGit(['commit', '-m', `images: upload ${uploads.length} webp`], workingTree)
       console.log('正在推送到 GitHub...')
-      runGit(['push', 'origin', options.branch], workingTree)
+      runGit(['push', authedRepo, options.branch], workingTree)
       if (options.deployPages) {
         console.log(`正在同步 GitHub Pages（${options.pagesBranch}）...`)
         const pagesHash = getRemoteBranchHash(options.pagesBranch, workingTree)
@@ -269,7 +301,7 @@ const main = async () => {
           ? `--force-with-lease=refs/heads/${options.pagesBranch}:${pagesHash}`
           : null
         runGit(
-          ['push', 'origin', ...(lease ? [lease] : []), `HEAD:${options.pagesBranch}`],
+          ['push', authedRepo, ...(lease ? [lease] : []), `HEAD:${options.pagesBranch}`],
           workingTree
         )
       }

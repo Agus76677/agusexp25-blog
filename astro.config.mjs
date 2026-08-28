@@ -43,7 +43,7 @@ const isGithubPages = platform === 'github'
 export default defineConfig({
   // Top-Level Options
   // site: isGithubPages ? 'https://axi404.github.io/' : (isCloudflare ? 'https://axi404.pages.dev/' : 'https://axi404.top/'),
-  site: isGithubPages ? 'https://hana-blog.github.io/' : (isCloudflare ? 'https://hana-blog.pages.dev/' : 'https://hana-blog.top/'),
+  site: isGithubPages ? 'https://agusexp25.top/' : (isCloudflare ? 'https://agusexp25.pages.dev/' : 'https://agusexp25.top/'),
   // site: 'https://hana-blog.pages.dev/',
   // base: '/docs',
   trailingSlash: 'never',

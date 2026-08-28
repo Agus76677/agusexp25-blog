@@ -95,13 +95,12 @@ export const integ: IntegrationUserConfig = {
   // Enable page search function
   pagefind: true,
   // Add a random quote to the footer (default on homepage footer)
+  // Disabled: no external quote API is called. The Quote component is not
+  // rendered anywhere, and these fields are only kept because the schema
+  // requires them. Fill in your own API here if you ever want to re-enable it.
   quote: {
-    // https://developer.hitokoto.cn/sentence/#%E8%AF%B7%E6%B1%82%E5%9C%B0%E5%9D%80
-    // server: 'https://v1.hitokoto.cn/?c=i',
-    // target: (data) => (data as { hitokoto: string }).hitokoto || 'Error'
-    // https://github.com/lukePeavey/quotable
-    server: 'https://api.quotable.io/quotes/random?maxLength=60',
-    target: `(data) => data[0].content || 'Error'`
+    server: '',
+    target: `(data) => ''`
   },
   // Tailwindcss typography
   typography: {
@@ -119,10 +118,9 @@ export const integ: IntegrationUserConfig = {
   },
   // Comment system
   waline: {
-    enable: true,
-    // Server service link
-    // server: 'https://waline.axi404.top/', 
-    server: 'https://waline.hana0721.top/',  
+    enable: false,
+    // Server service link (fill in your own Waline server if you re-enable this)
+    server: '',
     // Refer https://waline.js.org/en/guide/features/emoji.html
     emoji: ['bmoji', 'weibo'],
     // Refer https://waline.js.org/en/reference/client/props.html

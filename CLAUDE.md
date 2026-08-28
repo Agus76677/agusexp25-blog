@@ -105,9 +105,13 @@ Central configuration that controls:
 - The sample post is `src/content/blog/paper-deep-dive-act/index.mdx`.
 
 ### Image Hosting
-- When an image source comes from `https://Minakanmi-Yuki.github.io/picx-images-hosting/`,
-  store it in content as `https://pic.hana0721.top/` with the same filename/path.
-- Use the `pic.hana0721.top` domain for future images from that image host.
+- Images are hosted in the GitHub repo `Agus76677/picx-images-hosting` (PicX-style)
+  and served via jsDelivr CDN.
+- Use the prefix `https://cdn.jsdelivr.net/gh/Agus76677/picx-images-hosting@master/`
+  for image URLs in content (e.g. `.../pictures/<name>.<hash>.webp`).
+- Batch upload with `pnpm images:upload -- <files/dirs>` (see README section 11).
+  The GitHub token is read from the gitignored `.env` (`PICX_GITHUB_TOKEN`), never
+  hardcoded.
 
 ### Content Processing Pipeline
 1. Zod validation of frontmatter in `src/content.config.ts`

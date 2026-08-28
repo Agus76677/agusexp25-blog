@@ -20,10 +20,11 @@ const {
 
 const currentLocale = Astro.currentLocale || 'zh'
 const langAttr = currentLocale === 'en' ? 'en' : 'zh'
-const baseUrl = import.meta.env.BASE_URL || '/'
-const live2dAutoloadVersion = '20260416-entrance-v2'
-const live2dAutoloadSrc = `${baseUrl}live2d-autoload.js?v=${live2dAutoloadVersion}`
-const live2dCdnPath = `${baseUrl}live2d-api/`
+// Live2D widget disabled — see the commented-out injector block below.
+// const baseUrl = import.meta.env.BASE_URL || '/'
+// const live2dAutoloadVersion = '20260416-entrance-v2'
+// const live2dAutoloadSrc = `${baseUrl}live2d-autoload.js?v=${live2dAutoloadVersion}`
+// const live2dCdnPath = `${baseUrl}live2d-api/`
 ---
 
 <html lang={langAttr}>
@@ -97,6 +98,8 @@ const live2dCdnPath = `${baseUrl}live2d-api/`
       <Footer />
     </div>
 
+    {/* Live2D widget disabled. To re-enable, uncomment the script block below. */}
+    {/*
     <script is:inline define:vars={{ live2dAutoloadSrc, live2dCdnPath }}>
       (() => {
         const LIVE2D_AUTOLOAD_SRC = live2dAutoloadSrc
@@ -138,6 +141,7 @@ const live2dCdnPath = `${baseUrl}live2d-api/`
         document.addEventListener('astro:page-load', scheduleLive2DLoad)
       })()
     </script>
+    */}
 
     <script is:inline>
       (() => {
@@ -211,7 +215,9 @@ const live2dCdnPath = `${baseUrl}live2d-api/`
         ) !important;
       }
 
-      /* Live2D widget position override: bottom-right */
+      /* Live2D widget disabled — styles below are inert (no #waifu element is
+         injected). Kept commented for easy re-enable alongside the injector. */
+      /*
       :global(#waifu) {
         left: auto !important;
         right: 0 !important;
@@ -258,6 +264,7 @@ const live2dCdnPath = `${baseUrl}live2d-api/`
       :global(#waifu-toggle.waifu-toggle-active:hover) {
         margin-right: -30px !important;
       }
+      */
 
       /* 点击粒子效果样式 */
       :global(.click-particle) {
