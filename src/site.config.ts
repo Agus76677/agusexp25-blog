@@ -3,12 +3,12 @@ import type { CardListData, Config, IntegrationUserConfig, ThemeUserConfig } fro
 export const theme: ThemeUserConfig = {
   // === Basic configuration ===
   /** Title for your website. Will be used in metadata and as browser tab title. */
-  title: 'Hana\'s Blog',
+  title: 'Agus\'s Blog',
   /** Will be used in index page & copyright declaration */
-  author: '菊花花',
-  author_en: 'Hana',
+  author: '阿基',
+  author_en: 'AGUS',
   /** Description metadata for your website. Can be used in page metadata. */
-  description: '一个笨蛋学生',
+  description: '喜欢睡觉的大笨蛋',
   description_en: 'A Silly Student',
   /** The default favicon for your site which should be a path to an image in the `public/` directory. */
   favicon: '/favicon/favicon.ico',
@@ -88,8 +88,8 @@ export const integ: IntegrationUserConfig = {
     applyTip: [
       { name: 'Name', val: theme.title },
       { name: 'Desc', val: theme.description || 'Null' },
-      { name: 'Link', val: 'https://hana0721.top' },
-      { name: 'Avatar', val: 'https://hana0721.top/avatar/avatar.png' }
+      { name: 'Link', val: 'https://agusexp25.top' },
+      { name: 'Avatar', val: 'https://agusexp25.top/avatar/avatar.png' }
     ]
   },
   // Enable page search function
