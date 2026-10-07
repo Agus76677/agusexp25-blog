@@ -1,0 +1,223 @@
+---
+title: "HQC 硬件精读：共享存储、并行采样与细粒度调度"
+description: "精读 TVLSI 2026 HQC 加速器：解释 PSM、PPAM 与 FGOES，保留原始实验表，重算 ATP，并提出可复现的架构研究实验。"
+publishDate: "2026-10-07"
+paperBody: "content.json"
+tags: ["paper deep dive", "pqc", "hqc", "fpga", "asic"]
+category: "research"
+language: "zh"
+draft: false
+paper: {"title": "An Area-Efficient HQC Accelerator With Unified Parallel Modules and Fine-Grained Scheduling", "authors": ["Jianxiong Zhang", "Congwei Chen", "Haolin Mai", "Yanzhao Zhu", "Beihai Tan", "Xiaoming Xiong", "Shuting Cai"], "year": 2026, "venue": "IEEE TVLSI, Early Access", "code": "https://github.com/ZzzJ1x/psm"}
+updatedDate: "2026-10-07"
+---
+
+import PaperBlock from './PaperBlock.astro'
+import blocks from './content.json'
+
+[原论文](https://doi.org/10.1109/TVLSI.2026.3729873) · [下载解读 PDF](/papers/hqc-unified-parallel-2026/article.pdf)
+
+<PaperBlock html={blocks[0]} />
+
+## 1. 论文概述
+
+<PaperBlock html={blocks[1]} />
+
+<PaperBlock html={blocks[2]} />
+
+<PaperBlock html={blocks[3]} />
+
+<PaperBlock html={blocks[4]} />
+
+## 2. 背景与相关工作
+
+### 2.1 稀疏多项式为什么变成移位与 XOR
+
+<PaperBlock html={blocks[5]} />
+
+<PaperBlock html={blocks[6]} />
+
+<PaperBlock html={blocks[7]} />
+
+<PaperBlock html={blocks[8]} />
+
+### 2.2 FNB 与 CWW 的差别落在控制路径
+
+<PaperBlock html={blocks[9]} />
+
+<PaperBlock html={blocks[10]} />
+
+<PaperBlock html={blocks[11]} />
+
+## 3. 问题定义
+
+<PaperBlock html={blocks[12]} />
+
+<PaperBlock html={blocks[13]} />
+
+<PaperBlock html={blocks[14]} />
+
+<PaperBlock html={blocks[15]} />
+
+<PaperBlock html={blocks[16]} />
+
+## 4. 方法
+
+### 4.1 顶层共享资源与操作依赖
+
+<PaperBlock html={blocks[17]} />
+
+<PaperBlock html={blocks[18]} />
+
+### 4.2 PSM：约减速率与重复扫描匹配
+
+<PaperBlock html={blocks[19]} />
+
+<PaperBlock html={blocks[20]} />
+
+<PaperBlock html={blocks[21]} />
+
+<PaperBlock html={blocks[22]} />
+
+<PaperBlock html={blocks[23]} />
+
+### 4.3 PPAM：三个寄存器字为何能替代独立读流
+
+<PaperBlock html={blocks[24]} />
+
+<PaperBlock html={blocks[25]} />
+
+<PaperBlock html={blocks[26]} />
+
+<PaperBlock html={blocks[27]} />
+
+<PaperBlock html={blocks[28]} />
+
+<PaperBlock html={blocks[29]} />
+
+<PaperBlock html={blocks[30]} />
+
+<PaperBlock html={blocks[31]} />
+
+### 4.4 FGOES：依赖粒度降到四个索引
+
+<PaperBlock html={blocks[32]} />
+
+<PaperBlock html={blocks[33]} />
+
+<PaperBlock html={blocks[34]} />
+
+<PaperBlock html={blocks[35]} />
+
+<PaperBlock html={blocks[36]} />
+
+<PaperBlock html={blocks[37]} />
+
+### 4.5 UPRNG 与公开代码对应
+
+<PaperBlock html={blocks[38]} />
+
+<PaperBlock html={blocks[39]} />
+
+<PaperBlock html={blocks[40]} />
+
+<PaperBlock html={blocks[41]} />
+
+## 5. 实验
+
+### 5.1 条件与三个 ATP 口径
+
+<PaperBlock html={blocks[42]} />
+
+<PaperBlock html={blocks[43]} />
+
+<PaperBlock html={blocks[44]} />
+
+### 5.2 PSM 与 PPAM 原始结果
+
+<PaperBlock html={blocks[45]} />
+
+<PaperBlock html={blocks[46]} />
+
+<PaperBlock html={blocks[47]} />
+
+<PaperBlock html={blocks[48]} />
+
+<PaperBlock html={blocks[49]} />
+
+### 5.3 完整系统与 ATP 重算
+
+<PaperBlock html={blocks[50]} />
+
+<PaperBlock html={blocks[51]} />
+
+<PaperBlock html={blocks[52]} />
+
+<PaperBlock html={blocks[53]} />
+
+<PaperBlock html={blocks[54]} />
+
+<PaperBlock html={blocks[55]} />
+
+<PaperBlock html={blocks[56]} />
+
+### 5.4 ASIC 中仍占主导的存储面积
+
+<PaperBlock html={blocks[57]} />
+
+<PaperBlock html={blocks[58]} />
+
+<PaperBlock html={blocks[59]} />
+
+<PaperBlock html={blocks[60]} />
+
+## 6. 方法分析
+
+### 6.1 局部机制怎样形成系统贡献
+
+<PaperBlock html={blocks[61]} />
+
+<PaperBlock html={blocks[62]} />
+
+### 6.2 解析模型与实测之间的差额
+
+<PaperBlock html={blocks[63]} />
+
+<PaperBlock html={blocks[64]} />
+
+<PaperBlock html={blocks[65]} />
+
+## 7. 局限性
+
+<PaperBlock html={blocks[66]} />
+
+<PaperBlock html={blocks[67]} />
+
+<PaperBlock html={blocks[68]} />
+
+<PaperBlock html={blocks[69]} />
+
+## 8. 启发与研究思考
+
+### 8.1 优先实验：联合选择并行度、窗口与调度
+
+<PaperBlock html={blocks[70]} />
+
+<PaperBlock html={blocks[71]} />
+
+### 8.2 系统扩展：HQC 与格基 KEM 共用外围资源
+
+<PaperBlock html={blocks[72]} />
+
+<PaperBlock html={blocks[73]} />
+
+<PaperBlock html={blocks[74]} />
+
+<PaperBlock html={blocks[75]} />
+
+## 9. 资料来源
+
+<PaperBlock html={blocks[76]} />
+
+<PaperBlock html={blocks[77]} />
+
+<PaperBlock html={blocks[78]} />

@@ -1,0 +1,24 @@
+---
+interface Props { html: string }
+const { html } = Astro.props
+---
+<div class="pqc-paper" set:html={html} />
+<style>
+  .pqc-paper { min-width: 0; overflow-wrap: anywhere; }
+  .pqc-paper :global(figure) { margin: 1.4em 0; }
+  .pqc-paper :global(img) { max-width: 100%; height: auto; margin-inline: auto; background: white; }
+  .pqc-paper :global(figcaption) { text-align: center; font-size: .85em; opacity: .8; }
+  .pqc-paper :global(.table-scroll) { overflow-x: auto; }
+  .pqc-paper :global(table) { width: 100%; border-collapse: collapse; font-size: .9em; }
+  .pqc-paper :global(th), .pqc-paper :global(td) { padding: .5em; border: 1px solid #8885; }
+  .pqc-paper :global(.fact) { font-weight: 600; font-size: .85em; }
+  .pqc-paper :global(.analysis) { color: #c76c30; }
+  .pqc-paper :global(.citation) { font-size: .85em; }
+  .pqc-paper :global(math[display="block"]) { overflow-x: auto; padding: .8em 0; }
+  .pqc-paper :global(.algorithm) { border-block: 2px solid #8888; margin: 1em 0; }
+  .pqc-paper :global(.algorithm-caption), .pqc-paper :global(.algorithm-io) { padding: .6em; border-bottom: 1px solid #8885; }
+  .pqc-paper :global(.algorithm-lines) { list-style: none; padding: .5em; counter-reset: step; }
+  .pqc-paper :global(.algorithm-step) { display: flex; gap: .7em; counter-increment: step; }
+  .pqc-paper :global(.algorithm-line-number::before) { content: counter(step); opacity: .6; }
+  .pqc-paper :global(.algorithm-line-content) { padding-left: calc(var(--algorithm-indent, 0) * 1.1em); }
+</style>

@@ -1,0 +1,23 @@
+{
+  "generator": "pqc-hardware-paper-deep-dive",
+  "publishDate": "2026-10-07",
+  "source_html_sha256": "0311c7f24da0461d00eb907afb9c8b4c7fce730fe1e113418971482666be8628",
+  "files": {
+    "public/papers/hqc-unified-parallel-2026/figures/table1.png": "5551fd090decfcd9352cc56ac5d187a2def387b748a6c7af8e990ba1e8d08de1",
+    "public/papers/hqc-unified-parallel-2026/figures/fig1.png": "aa4f6a7d8dc2ae06c9028c04049d59be5cb53ee043e7449dd4a1d1912a5dded8",
+    "public/papers/hqc-unified-parallel-2026/figures/fig2.png": "64271e74e17e0521b0d680383cdf3f07ab1f8bb928a67e2b004415c2069035ff",
+    "public/papers/hqc-unified-parallel-2026/figures/fig4.png": "02c2ef565f4b00a18b8962480e202e6ab459b9d9c5ff4afe2fe462f22850016e",
+    "public/papers/hqc-unified-parallel-2026/figures/fig6.png": "b03e78172343bcc4b3b89f4ba887552cff37985896d49dedbce8bc323718d958",
+    "public/papers/hqc-unified-parallel-2026/figures/fig7.png": "dfd2939fd78b9b0d6728cddfda986c26e2d1a06530fb6b7a46779e878cc3b536",
+    "public/papers/hqc-unified-parallel-2026/figures/fig10.png": "701119310bac1f642876646d1a8b25f7e3f21bc457bb42c48321570cd61a3533",
+    "public/papers/hqc-unified-parallel-2026/figures/fig11.png": "966121f41965605a5901db317e9a94d4517a80c1378a7498881c0eee647c324d",
+    "public/papers/hqc-unified-parallel-2026/figures/table2.png": "a481fbcc1f49d3e58e73b0d122f6f267a3b27393aa281f816695dad7db2f6b98",
+    "public/papers/hqc-unified-parallel-2026/figures/table3.png": "f8834a9508d88b9e85f81a9679ed64efaac713adaaa3879ed1281cf31a3a2cd8",
+    "public/papers/hqc-unified-parallel-2026/figures/table4.png": "6266d1d339a36b4a2f6a47202a263fbd4ff8420eead2ec49625dcf53c35007b4",
+    "public/papers/hqc-unified-parallel-2026/figures/table5.png": "c32a65d5f6ff464c255c5d87282c91f38fcebb439f8778146368a83e624bbc96",
+    "public/papers/hqc-unified-parallel-2026/article.pdf": "1254db5d20d2b5665d7f253ebb5bc386fa18f999a9aa6f6cb090f8cfafff60a5",
+    "src/content/blog/paper-deep-dive-hqc-unified-parallel-2026/index.mdx": "2189628c4fe653331f160add4bb020503b42ce38c40273dfaf28e3f20ebeb4ec",
+    "src/content/blog/paper-deep-dive-hqc-unified-parallel-2026/content.json": "3bf36776c6eefe76afa20d02fca23e41f5646788d41258ce4862a3b50f7df46a",
+    "src/content/blog/paper-deep-dive-hqc-unified-parallel-2026/PaperBlock.astro": "d0a5a6e178f3868a5df983ec67c53c61bb7f5194c87e632962b09564bb4bc153"
+  }
+}
