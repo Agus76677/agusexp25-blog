@@ -5,6 +5,7 @@ import { visit } from 'unist-util-visit'
 // Cannot use '@/utils' for plugin absolute path
 import mdastToString from '../utils/mdast-util-to-string'
 import getReadingTime from '../utils/reading-time'
+import { paperReadingText } from './paper-reading-time.mjs'
 
 export const remarkAddZoomable: Plugin<[{ className?: string }], Root> = function ({
   className = 'zoomable'
@@ -17,8 +18,9 @@ export const remarkAddZoomable: Plugin<[{ className?: string }], Root> = functio
 }
 
 export const remarkReadingTime: Plugin<[], Root> = function () {
-  return function (tree, { data }) {
-    const textOnPage = mdastToString(tree)
+  return function (tree, file) {
+    const { data } = file
+    const textOnPage = paperReadingText(file) ?? mdastToString(tree)
     const readingTime = getReadingTime(textOnPage)
     // readingTime.text will give us minutes read as a friendly string,
     // i.e. "3 min read"
