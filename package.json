@@ -16,6 +16,7 @@
     "check": "astro check",
     "astro": "astro",
     "images:upload": "node scripts/upload-images.mjs",
+    "covers:select": "node scripts/select-paper-cover.mjs",
     "deploy": "node scripts/deploy.mjs",
     "deploy:check": "node scripts/deploy.mjs --dry-run",
     "format": "prettier --write '**/*.{js,jsx,ts,tsx,md,mdx,astro}'",

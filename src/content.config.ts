@@ -35,6 +35,8 @@ const blogSchema = ({ image }: { image: () => any }) =>
     paper: z
       .object({
         arxivId: z.string().optional(),
+        doi: z.string().optional(),
+        url: z.string().optional(),
         title: z.string().optional(),
         authors: z.array(z.string()).optional(),
         venue: z.string().optional(),

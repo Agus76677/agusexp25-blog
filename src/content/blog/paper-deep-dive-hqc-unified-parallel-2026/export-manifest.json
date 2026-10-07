@@ -16,8 +16,15 @@
     "public/papers/hqc-unified-parallel-2026/figures/table4.png": "6266d1d339a36b4a2f6a47202a263fbd4ff8420eead2ec49625dcf53c35007b4",
     "public/papers/hqc-unified-parallel-2026/figures/table5.png": "c32a65d5f6ff464c255c5d87282c91f38fcebb439f8778146368a83e624bbc96",
     "public/papers/hqc-unified-parallel-2026/article.pdf": "1254db5d20d2b5665d7f253ebb5bc386fa18f999a9aa6f6cb090f8cfafff60a5",
-    "src/content/blog/paper-deep-dive-hqc-unified-parallel-2026/index.mdx": "2189628c4fe653331f160add4bb020503b42ce38c40273dfaf28e3f20ebeb4ec",
+    "src/content/blog/paper-deep-dive-hqc-unified-parallel-2026/index.mdx": "4549197a2ce57865758f4080f3420b8a10f8bb4588f8621817a79faaed601765",
     "src/content/blog/paper-deep-dive-hqc-unified-parallel-2026/content.json": "3bf36776c6eefe76afa20d02fca23e41f5646788d41258ce4862a3b50f7df46a",
     "src/content/blog/paper-deep-dive-hqc-unified-parallel-2026/PaperBlock.astro": "d0a5a6e178f3868a5df983ec67c53c61bb7f5194c87e632962b09564bb4bc153"
-  }
+  },
+  "heroImage": {
+    "src": "https://pic.agusexp25.top/covers/library/lyjvl2.7c46e21611fe.webp",
+    "alt": "人物 · 葬送的芙莉莲插画封面",
+    "width": 2400,
+    "height": 1350
+  },
+  "pixivLink": "140098051"
 }

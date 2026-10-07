@@ -58,6 +58,32 @@ def run(args, cwd): subprocess.run([str(a) for a in args], cwd=str(cwd), check=T
 def git(root, *args):
     return subprocess.check_output(['git', '-C', str(root), *args], encoding='utf-8').strip()
 
+def select_cover(args, blog, post, previous):
+    if args.hero_image:
+        if urlsplit(args.hero_image).scheme not in ('https', 'http'):
+            raise ValueError('--hero-image requires an HTTP(S) image URL')
+        return {'heroImage': {'src': args.hero_image}}
+    retained = {key: previous[key] for key in ('heroImage', 'pixivLink') if key in previous}
+    selector = blog / 'scripts/select-paper-cover.mjs'
+    if not selector.is_file():
+        if args.cover_category or args.replace_cover:
+            raise ValueError('Cover selection requires scripts/select-paper-cover.mjs in the blog')
+        return retained
+    node = shutil.which('node')
+    if not node: raise ValueError('Node.js is required for cover selection')
+    command = [node, str(selector), '--blog-root', str(blog), '--post', str(post / 'index.mdx')]
+    if args.cover_category: command.extend(['--category', args.cover_category])
+    if args.replace_cover: command.append('--replace')
+    result = subprocess.run(command, cwd=str(blog), capture_output=True, encoding='utf-8')
+    if result.returncode == 2:
+        print('Cover catalog unavailable; retaining saved cover. ' + result.stderr.strip(), file=sys.stderr)
+        return retained
+    if result.returncode:
+        raise ValueError(result.stderr.strip() or 'Cover selection failed')
+    selection = json.loads(result.stdout)
+    print('Cover: ' + selection['action'])
+    return selection['frontmatter']
+
 COMPONENT = '''---
 interface Props { html: string }
 const { html } = Astro.props
@@ -160,6 +186,7 @@ def export(args):
     if paper_identity.get('venue'): front['paper']['venue'] = paper_identity['venue']
     if previous: front['updatedDate'] = args.date or date.today().isoformat()
     if meta.get('code-url'): front['paper']['code'] = meta['code-url']
+    front.update(select_cover(args, blog, post, previous))
     mdx = '---\n' + '\n'.join(k + ': ' + json.dumps(v, ensure_ascii=False) for k, v in front.items()) + '\n---\n\n'
     mdx += "import PaperBlock from './PaperBlock.astro'\nimport blocks from './content.json'\n\n"
     mdx += '[原论文](' + meta['paper-url'] + ') · [下载解读 PDF](' + pdf_url + ')\n\n' + '\n\n'.join(body) + '\n'
@@ -173,6 +200,7 @@ def export(args):
     manifest = {'generator': 'pqc-hardware-paper-deep-dive', 'publishDate': published,
                 'source_html_sha256': digest((paper / 'article.html').read_bytes()),
                 'files': {p: content_digest(p, d) for p, d in files.items()}}
+    manifest.update({key: front[key] for key in ('heroImage', 'pixivLink') if key in front})
     files[(post / 'export-manifest.json').as_posix()] = (json.dumps(manifest, ensure_ascii=False, indent=2) + '\n').encode('utf-8')
     for relative, data in files.items():
         destination = blog / relative
@@ -192,6 +220,9 @@ def main():
     parser.add_argument('--date', help='ISO date; existing publication date is preserved')
     parser.add_argument('--base', default='', help='Astro base path, if configured')
     parser.add_argument('--draft', action='store_true')
+    parser.add_argument('--hero-image', help='Use a user-provided cover URL')
+    parser.add_argument('--cover-category', help='Select a cover category, e.g. 芙莉莲 or 动漫风景')
+    parser.add_argument('--replace-cover', action='store_true', help='Replace the existing cover')
     parser.add_argument('--build', action='store_true')
     parser.add_argument('--publish', action='store_true', help='Build, commit exported files and push')
     parser.add_argument('--remote', default='origin')

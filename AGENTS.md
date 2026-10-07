@@ -25,7 +25,7 @@ English. Static assets are in `src/assets/`, `public/`, and `preset/icons/`.
 ## Skills
 
 - `skills/paper-deep-dive/` contains the Paper Deep Dive skill for generating and revising
-  one-paper-per-post Embodied AI blog articles.
+  one-paper-per-post FPGA/ASIC post-quantum cryptography blog articles.
 - Read `skills/paper-deep-dive/SKILL.md` before handling Paper Deep Dive generation or feedback
   revision requests.
 

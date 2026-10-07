@@ -1,4 +1,4 @@
 interface:
   display_name: "Paper Deep Dive"
-  short_description: "Generate and revise Embodied AI paper deep dive posts"
-  default_prompt: "Use $paper-deep-dive to generate an Embodied AI paper deep dive post from this paper and code."
+  short_description: "Generate and revise PQC hardware paper deep dive posts"
+  default_prompt: "Use $paper-deep-dive to generate a Chinese PQC hardware paper deep dive post from this paper and any official code or RTL."

@@ -1,41 +1,66 @@
 ---
 name: paper-deep-dive
-description: Generate and revise Embodied AI paper deep dive blog posts in the agusexp25-blog repository. Use when the user provides a paper and optional code/project/dataset links and wants a one-paper-per-post Chinese blog in the Paper Deep Dive collection, or when the user asks to improve or rewrite an existing paper-deep-dive-* post based on reader feedback.
+description: Generate and revise Chinese blog-native deep dives for FPGA/ASIC post-quantum cryptography papers in the agusexp25-blog repository. Use for one-paper-per-post reading notes that emphasize algorithm-to-hardware mapping, architecture, memory/scheduling, implementation results, fair hardware metrics, and research insights.
 ---
 
-# Paper Deep Dive
+# PQC Hardware Paper Deep Dive — Blog Edition
 
 ## Overview
 
-Create one Embodied AI paper deep dive post per paper under `src/content/blog/paper-deep-dive-<slug>/index.mdx`. The skill also revises existing posts from reader feedback while preserving factual accuracy.
+Create one paper deep-dive post per paper under:
+
+`src/content/blog/paper-deep-dive-<slug>/index.mdx`
+
+This skill is the **blog renderer/editorial workflow** for PQC hardware paper reading. It should preserve the technical discipline of the standalone `pqc-hardware-paper-deep-dive` skill, but write directly in the blog's native MDX style.
 
 ## Workflow
 
 Choose one workflow:
 
-- **Generate post**: read `references/create-post.md`, copy `assets/post-template.mdx`, follow the generation workflow, then validate.
-- **Revise post**: read `references/revise-post.md`, apply feedback to the existing post, then validate.
+- **Generate post**: read `references/create-post.md`, `references/pqc-hardware-checklist.md`, and, when hardware results are reported, `references/hardware-metrics.md`; copy `assets/post-template.mdx`; then validate.
+- **Revise post**: read `references/revise-post.md` and the relevant technical references; apply reader feedback without weakening factual accuracy; then validate.
+
+When paper figures are needed, read `references/extract-paper-figures.md`.
+
+When adding or replacing a cover, read `references/hero-image-usage.md` and use the blog's shared `scripts/select-paper-cover.mjs`.
 
 ## Shared Requirements
 
 - Write in Chinese and keep important English technical terms.
-- Do not create an English `index-en` version unless the user explicitly asks.
+- Do not create `index-en.mdx` unless explicitly requested.
 - Use `category: 'research'` and the slug prefix `paper-deep-dive-`.
-- Use `references/hero-image-usage.md` to choose a Pixiv cover from the shared pool; prefer count-1 images and avoid heavy reuse.
-- Mark facts with `【Paper】`, `【Code】`, and `【Analysis】`.
-- Include key paper figures such as the system overview, architecture, method diagrams, and experimental results.
-- Crop paper figures before inserting them; verify the final image URL returns HTTP 200.
-- Keep each section's responsibilities distinct; do not repeat the same training or inference flow across overviews and algorithm blocks.
-- Use `Algorithm` and `AlgorithmStep` components for pseudocode.
-- Use `ArxivRating` at the top of generated posts.
-- Write one post per paper.
-- Update `updatedDate` when revising a post.
-- Validate with `npm run check`; run `npm run build` for route, config, or shared component changes.
+- Use the `PaperRating` card at the top of every generated post.
+- The card must always contain a one-sentence takeaway and a recommendation rank, even when no arXiv ID exists.
+- Do not fabricate arXiv IDs, DOI, venue, code, project URLs, or publication status.
+- Prefer the paper's own figures for technical content. Upload blog-owned copies through the repository's image-upload workflow when appropriate.
+- Do not use `pic.hana0721.top` or `Minakanmi-Yuki/picx-images-hosting` for new content.
+- Default paper facts are written naturally. Do **not** prefix every paragraph with `【Paper】`.
+- Use at most one compact `【Paper】` evidence block and one `【Analysis】` block per subsection unless a genuine source switch requires more.
+- Use `【Code】` only for claims actually verified from released code/RTL.
+- Use `【Source】` only for external primary sources such as standards/specifications or verified prior work.
+- Prefer short natural paragraphs plus bullets/tables for contributions, design choices, experimental settings, and limitations.
+- Keep each section's responsibility distinct and avoid repeating the same architecture description.
+- Do not force NTT, complete-accelerator, ASIC, side-channel, or code-analysis content onto a paper that does not cover it.
+- Validate with `pnpm check`. Run `pnpm build` when routes, config, schema, or shared components are changed.
+
+## Editorial Target
+
+The article should read like a polished research blog post rather than an evidence database.
+
+Use this rhythm:
+
+1. concise natural-language setup;
+2. one structured list/table for the important facts;
+3. one analysis paragraph when interpretation adds value.
+
+The full evidence trail may live in the standalone deep-dive output; the blog should expose only the provenance labels needed for readers to distinguish paper claims, code facts, external sources, and independent analysis.
 
 ## Resources
 
-- `references/create-post.md`: detailed generation workflow, structure, fact-label rules, and validation.
-- `references/extract-paper-figures.md`: how to extract figures from arXiv LaTeX source or PDF fallback and upload them.
-- `references/hero-image-usage.md`: shared cover-image inventory and selection policy for Paper Deep Dive posts.
-- `references/revise-post.md`: feedback revision workflow and feedback classification.
-- `assets/post-template.mdx`: copyable MDX skeleton for new posts.
+- `references/create-post.md`: generation workflow, structure, card rules, source-label frequency, and writing style.
+- `references/pqc-hardware-checklist.md`: PQC hardware technical dimensions.
+- `references/hardware-metrics.md`: single-paper hardware-result recording and derived metrics.
+- `references/extract-paper-figures.md`: extraction/upload rules for technical figures.
+- `references/hero-image-usage.md`: cover-image policy for this blog.
+- `references/revise-post.md`: reader-feedback revision workflow.
+- `assets/post-template.mdx`: copyable MDX skeleton.

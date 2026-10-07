@@ -1,0 +1,166 @@
+---
+interface Link {
+  label: string
+  href: string
+}
+
+interface Props {
+  arxivId?: string
+  doi?: string
+  paperUrl?: string
+  publication?: string
+  tldr: string
+  rank: number
+  links?: Link[]
+}
+
+const { arxivId, doi, paperUrl, publication, tldr, rank, links = [] } = Astro.props as Props
+
+const normalizedArxiv = arxivId?.trim()
+const normalizedDoi = doi?.trim()
+const normalizedPaperUrl = paperUrl?.trim()
+const normalizedPublication = publication?.trim()
+
+const arxivHref = normalizedArxiv ? `https://arxiv.org/abs/${normalizedArxiv}` : undefined
+const hjfyHref = normalizedArxiv
+  ? `https://hjfy.top/arxiv/${normalizedArxiv.replace(/v\d+$/, '')}`
+  : undefined
+const doiHref = normalizedDoi
+  ? `https://doi.org/${normalizedDoi.replace(/^https?:\/\/doi\.org\//, '')}`
+  : undefined
+
+const safeRank = Math.max(0, Math.min(5, Math.round(rank)))
+---
+
+<div class='rounded-xl border p-4'>
+  <div class='flex flex-wrap items-center gap-2'>
+    {
+      normalizedArxiv && (
+        <div class='inline-flex items-stretch gap-2 rounded-full border pe-3'>
+          <span class='flex items-center rounded-full bg-primary-foreground px-2.5 text-sm text-primary'>
+            Arxiv ID
+          </span>
+          <samp class='text-foreground'>
+            <a href={arxivHref} target='_blank' rel='noopener noreferrer'>
+              {normalizedArxiv}
+            </a>
+          </samp>
+        </div>
+      )
+    }
+
+    {
+      normalizedArxiv && (
+        <div class='inline-flex items-stretch gap-2 rounded-full border pe-3'>
+          <span class='flex items-center rounded-full bg-blue-100 px-2.5 text-sm text-blue-700'>
+            幻觉翻译
+          </span>
+          <samp class='text-foreground'>
+            <a href={hjfyHref} target='_blank' rel='noopener noreferrer'>
+              {normalizedArxiv}
+            </a>
+          </samp>
+        </div>
+      )
+    }
+
+    {
+      normalizedDoi && (
+        <div class='inline-flex items-stretch gap-2 rounded-full border pe-3'>
+          <span class='flex items-center rounded-full bg-violet-100 px-2.5 text-sm text-violet-700'>
+            DOI
+          </span>
+          <samp class='max-w-[18rem] truncate text-foreground'>
+            <a href={doiHref} target='_blank' rel='noopener noreferrer'>
+              {normalizedDoi.replace(/^https?:\/\/doi\.org\//, '')}
+            </a>
+          </samp>
+        </div>
+      )
+    }
+
+    {
+      normalizedPaperUrl && !normalizedArxiv && !normalizedDoi && (
+        <div class='inline-flex items-stretch gap-2 rounded-full border pe-3'>
+          <span class='flex items-center rounded-full bg-primary-foreground px-2.5 text-sm text-primary'>
+            Paper
+          </span>
+          <samp class='max-w-[18rem] truncate text-foreground'>
+            <a href={normalizedPaperUrl} target='_blank' rel='noopener noreferrer'>
+              原文
+            </a>
+          </samp>
+        </div>
+      )
+    }
+
+    {
+      normalizedPublication && (
+        <div class='inline-flex items-stretch gap-2 rounded-full border pe-3'>
+          <span class='flex items-center rounded-full bg-emerald-100 px-2.5 text-sm text-emerald-700'>
+            publication
+          </span>
+          <samp class='text-foreground'>{normalizedPublication}</samp>
+        </div>
+      )
+    }
+  </div>
+
+  <p class='mt-4 flex items-start gap-x-3'>
+    <svg
+      xmlns='http://www.w3.org/2000/svg'
+      width='26'
+      height='26'
+      viewBox='0 0 24 24'
+      class='shrink-0'
+    >
+      <path
+        fill='currentColor'
+        d='M9 21h6v-1H9v1Zm3-20a7 7 0 0 0-4 12.745V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-3.255A7 7 0 0 0 12 1Zm2.5 11.43-.5.29V16h-4v-3.28l-.5-.29A5 5 0 1 1 14.5 12.43Z'
+      ></path>
+    </svg>
+    <span>{tldr}</span>
+  </p>
+
+  <div class='mt-3 flex flex-wrap items-center gap-2'>
+    <div class='inline-flex items-center gap-x-1 rounded-full border bg-muted px-3'>
+      推荐指数：
+      {
+        Array.from({ length: safeRank }, () => (
+          <svg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 24 24'>
+            <path
+              fill='currentColor'
+              d='m12 17.27l5.18 3.13l-1.64-5.89L20 10.24l-5.91-.5L12 4.17L9.91 9.74L4 10.24l4.46 4.27l-1.64 5.89L12 17.27Z'
+            />
+          </svg>
+        ))
+      }
+    </div>
+
+    {
+      normalizedPaperUrl && (normalizedArxiv || normalizedDoi) && (
+        <a
+          href={normalizedPaperUrl}
+          target='_blank'
+          rel='noopener noreferrer'
+          class='inline-flex items-center rounded-md bg-muted px-3 py-1.5 text-xs font-medium text-muted-foreground hover:text-foreground'
+        >
+          Paper
+        </a>
+      )
+    }
+
+    {
+      links.map((link) => (
+        <a
+          href={link.href}
+          target='_blank'
+          rel='noopener noreferrer'
+          class='inline-flex items-center rounded-md bg-muted px-3 py-1.5 text-xs font-medium text-muted-foreground hover:text-foreground'
+        >
+          {link.label}
+        </a>
+      ))
+    }
+  </div>
+</div>

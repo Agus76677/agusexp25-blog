@@ -1,163 +1,92 @@
-# Extract Paper Figures
+# Extract Paper Figures for agusexp25-blog
 
-Paper Deep Dive posts should use the paper's own figures. Prefer the arXiv LaTeX source because it preserves original figure files and crop parameters.
+Use the paper's own technical figures. Prefer original source assets when available.
 
-## 1. Prefer LaTeX Source
+## 1. Source preference
 
-Download the arXiv source:
+Prefer, in order:
 
-```bash
-curl -L https://arxiv.org/e-print/<arxiv-id> -o /tmp/paper-src.tar.gz
-tar -xzf /tmp/paper-src.tar.gz -C /tmp/paper-src
-```
+1. arXiv/ePrint LaTeX source or author artifact containing original figures;
+2. official project/repository figure assets;
+3. publisher/ePrint PDF;
+4. user-provided PDF.
 
-Find figure usages:
+Do not require an arXiv ID. Many hardware papers are journal/conference publications without an arXiv preprint.
 
-```bash
-rg -n "includegraphics|begin\{figure|caption\{" /tmp/paper-src/*.tex
-```
+## 2. Choose figures
 
-Inspect the source for useful figures:
+Normally use 3–6 figures only when they are genuinely useful.
 
-- `setup.jpg` / overview images
-- architecture PDFs or diagrams
-- method figures
-- experiment figures
-- ablation figures
+For PQC hardware papers, prioritize:
 
-Reuse the paper's own `trim` and `width` parameters when cropping.
+- overall accelerator/dataflow architecture;
+- BFU/PE/arithmetic-unit diagram;
+- memory mapping/banking diagram;
+- cycle/scheduling diagram;
+- design-space/ablation figure;
+- one result figure if a Markdown table cannot communicate it better.
 
-## 2. Crop a Figure PDF
+Do not upload screenshots of tables that can be cleanly reproduced as Markdown.
 
-LaTeX trim syntax is:
+## 3. Cropping
 
-```text
-\includegraphics[width=..., trim={left bottom right top}, clip]{figure.pdf}
-```
+Preserve labels, legends, axis titles, and subfigure labels.
 
-Get the page size:
+If LaTeX `trim`/`clip` values exist, preserve their semantics.
 
-```bash
-pdfinfo figure.pdf | rg "Page size"
-```
+Use PDF rasterization/cropping tools supported by the local environment. Always visually inspect the final crop.
 
-Convert the LaTeX trim into a `pdfcrop --bbox`:
+## 4. Upload to the user's image host
 
-```text
-bbox = left, bottom, page_width - right, page_height - top
-```
+This repository already provides `scripts/upload-images.mjs`.
 
-Example for a `720x540` page with `trim={1cm 11.5cm 0 0}`:
+Dry-run first:
 
 ```bash
-pdfcrop --bbox '28.3465 326.0 720 540' --clip figure.pdf cropped.pdf
-pdftocairo -f 1 -l 1 -png -r 200 -singlefile cropped.pdf cropped
+pnpm images:upload -- --dry-run --remote-dir blog/paper-deep-dive-<slug> <image-files>
 ```
 
-Use `pdftocairo` or `pdftoppm` for rasterization instead of ImageMagick's PDF reader when possible.
-
-## 3. Crop a Raster Figure
-
-When `\includegraphics` references a raster image such as `setup.jpg`, use the source image dimensions and the LaTeX `trim` values.
-
-For raster images, the source pixel dimensions correspond to the LaTeX natural size in points at 72 dpi. Convert the `trim` lengths to points with:
-
-```text
-1 cm = 28.3465 bp
-```
-
-Then crop with ImageMagick:
-
-```text
-x = left_bp
-y = top_bp
-width = source_pixel_width - left_bp - right_bp
-height = source_pixel_height - top_bp - bottom_bp
-```
-
-Example for a `3000x2250` source with `trim={0.3cm 44.35cm 0.3cm 0.5cm}`:
+Then upload:
 
 ```bash
-convert source.jpg -crop 2983x979+8+14 +repage cropped.png
-identify cropped.png
+pnpm images:upload -- --remote-dir blog/paper-deep-dive-<slug> <image-files>
 ```
 
-Check the output aspect ratio. If the crop looks like a narrow strip or leaves large white margins, recalculate the trim before uploading.
+The expected public prefix for this blog is:
 
-## 4. PDF-Only Fallback
+`https://pic.agusexp25.top`
 
-If LaTeX source is unavailable:
+New posts must not use `pic.hana0721.top`.
 
-```bash
-curl -L https://arxiv.org/pdf/<arxiv-id> -o /tmp/paper.pdf
-pdftoppm -f <page> -l <page> -r 200 -png /tmp/paper.pdf /tmp/figure
-```
+## 5. Insert
 
-Then crop with ImageMagick:
-
-```bash
-convert /tmp/figure-<page>.png -crop WxH+X+Y +repage /tmp/figure-crop.png
-```
-
-Keep readable labels and avoid cutting off captions or diagram text.
-
-## 5. Choose Figures
-
-Use 3-6 relevant figures per post:
-
-- Overview / system figure
-- Overall architecture
-- Method or module diagram
-- Task or environment setup
-- Main results or ablation
-
-Do not include every figure. Select figures that the text actually explains.
-
-## 6. Upload and Insert
-
-Upload the extracted images to the blog image host:
-
-```bash
-pnpm images:upload -- --dry-run --remote-dir blog/paper-deep-dive-<slug> /tmp/figure-*.png
-pnpm images:upload -- --remote-dir blog/paper-deep-dive-<slug> /tmp/figure-*.png
-```
-
-Insert the uploaded URL into the matching MDX section:
+Markdown:
 
 ```mdx
-![<figure name> from paper Figure <N>](https://pic.hana0721.top/blog/paper-deep-dive-<slug>/<uploaded-file>.webp)
+![<descriptive alt text>](https://pic.agusexp25.top/blog/paper-deep-dive-<slug>/<uploaded-file>.webp)
 ```
 
-For wide or previously problematic images, use an explicit responsive `img` tag:
+For wide figures:
 
 ```mdx
 <img
-  src='https://pic.hana0721.top/blog/paper-deep-dive-<slug>/<uploaded-file>.webp'
-  alt='<figure name> from paper Figure <N>'
+  src='https://pic.agusexp25.top/blog/paper-deep-dive-<slug>/<uploaded-file>.webp'
+  alt='<descriptive alt text>'
   class='zoomable'
-  width='<pixel width>'
-  height='<pixel height>'
   loading='lazy'
   decoding='async'
   style='max-width:100%; height:auto;'
 />
 ```
 
-## 7. CDN Fallback
+## 6. Verify
 
-`pic.hana0721.top` may return a cached 404 for newly uploaded files. After uploading, verify the custom-domain URL:
+Verify the final public URL loads successfully before publishing.
 
-```bash
-curl -sS -o /dev/null -w '%{http_code}\n' \
-  'https://pic.hana0721.top/blog/paper-deep-dive-<slug>/<uploaded-file>.webp'
-```
+If upload is unavailable, it is acceptable to keep a verified official figure URL temporarily, but document that choice. Do not invent a figure.
 
-If it returns 404 while the GitHub raw URL returns 200, use the raw URL for that image:
+## 7. Provenance
 
-```text
-https://raw.githubusercontent.com/Minakanmi-Yuki/picx-images-hosting/master/blog/paper-deep-dive-<slug>/<uploaded-file>.webp
-```
+In prose or caption, identify the original paper Figure/Table number when known.
 
-Prefer the custom domain after the CDN cache has refreshed; use raw as a temporary fallback so readers can load the image immediately.
-
-If no source or PDF is available, state that clearly in the post instead of inventing a figure.
+Cropping and re-hosting do not change provenance.

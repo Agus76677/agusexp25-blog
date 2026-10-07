@@ -2,105 +2,159 @@
 title: '<Paper Name> 论文精读'
 publishDate: YYYY-MM-DD
 updatedDate: YYYY-MM-DD
-description: '<Replace with a concise description under 160 chars.>'
-heroImage: { src: 'https://pic.hana0721.top/<existing-pixiv-image>', color: '#8C8275' }
+description: '<Replace with a concise Chinese description under 160 chars.>'
 category: 'research'
-pixivLink: '<pixiv id>'
 tags:
   - 'paper deep dive'
+  - 'pqc'
   - '<topic>'
 paper:
-  arxivId: '<arxiv id>'
   title: '<Original paper title>'
   authors:
     - '<Author One>'
-    - '<Author Two>'
-  venue: '<Conference / Journal / arXiv>'
+  venue: '<Journal / Conference / ePrint / arXiv>'
   year: YYYY
-  code: '<official code URL or leave empty>'
-  project: '<official project URL or leave empty>'
+  arxivId: '<optional; remove when unavailable>'
+  code: '<optional official code URL; remove when unavailable>'
+  project: '<optional official project URL; remove when unavailable>'
 ---
 
-import { ArxivRating } from '@/components/advanced'
+import PaperRating from '@/components/advanced/PaperRating.astro'
 import Algorithm from '@/components/advanced/Algorithm.astro'
 import AlgorithmStep from '@/components/advanced/AlgorithmStep.astro'
 import { Aside } from '@/components/user'
 
-<ArxivRating id='<arxiv id>' tldr='<one-sentence TL;DR>' rank={4} />
+<PaperRating
+  arxivId='<optional; omit when unavailable>'
+  doi='<optional; omit when unavailable>'
+  paperUrl='<verified publisher/ePrint URL or omit>'
+  publication='<verified venue/status or omit>'
+  tldr='<one-sentence takeaway — always required>'
+  rank={4}
+/>
 
 ## 1. 论文概述
 
+用一段自然语言快速说明论文解决什么问题、实现范围是什么、为什么值得读。
+
 ### 一句话总结
+
+一句话，说明“核心机制 + 主要价值”。
 
 ### 核心贡献
 
+1. <mechanism-oriented contribution>
+2. <architecture / memory / scheduling contribution>
+3. <implementation or evaluation contribution>
+
 ## 2. 背景与相关工作
 
+用一段简洁背景建立上下文。
+
+**【Paper】**
+
+<集中说明作者认为已有工作的关键缺口；不要把 Paper 标签重复到每段。>
+
+**【Analysis】** <说明这篇工作的技术定位；没有必要时可以不写。>
+
 ## 3. 问题定义
+
+<定义运算、参数、输入输出、表示与实现边界。>
 
 ## 4. 方法
 
 ### 4.1 Overall Architecture
 
-![Architecture overview from paper Figure <N>](uploaded-paper-figure-url)
+![Architecture / dataflow from paper Figure <N>](<uploaded-or-official-figure-url>)
 
-<!-- One-sentence data flow only. Do not repeat full training/inference loops here. -->
+<一段端到端数据流说明。>
 
-### 4.2 核心模块
+### 4.2 核心机制 / Algorithm-to-Hardware Mapping
 
-### 4.3 关键公式
+<原瓶颈 → 机制 → 依赖变化 → 硬件收益。>
 
-### 4.4 Training
+### 4.3 算术与数据通路
 
-<Algorithm number={1} title='<Training Algorithm Name>' inputLabel='输入' outputLabel='输出'>
-  <div slot='input'><Replace with training input.></div>
-  <div slot='output'><Replace with trained policy.></div>
-  <AlgorithmStep><Replace with training pseudocode line.></AlgorithmStep>
-</Algorithm>
+<仅在相关时保留。优先使用表格或 bullet。>
 
-### 4.5 Inference
+### 4.4 存储与调度
 
-<Algorithm number={2} title='<Inference Algorithm Name>' inputLabel='输入' outputLabel='输出'>
-  <div slot='input'><Replace with inference input.></div>
-  <div slot='output'><Replace with executed action.></div>
-  <AlgorithmStep><Replace with inference pseudocode line.></AlgorithmStep>
-</Algorithm>
+<仅在相关时保留。优先使用 schedule / bank / port 表格。>
 
-### 4.6 代码实现对照
+### 4.5 代码 / RTL 实现对照
+
+<仅在实际检查官方代码/RTL 时保留。>
 
 ## 5. 实验
 
 ### 5.1 Experimental Setup
 
-![Task or setup figure from paper Figure <N>](uploaded-paper-figure-url)
+| 项目 | 设置 |
+| --- | --- |
+| Platform | <FPGA / ASIC> |
+| Device / Process | <...> |
+| Tool | <...> |
+| Parameter set | <...> |
+| Scope | <...> |
+| Implementation stage | <post-route / synthesis / silicon / ...> |
 
 ### 5.2 Main Results
 
-### 5.3 Ablation Study
+<复现最重要的原始结果表，并解释关键结果。>
 
-![Ablation results from paper Figure <N>](uploaded-paper-figure-url)
+### 5.3 资源与效率分析
 
-### 5.4 Generalization
+<资源、周期、频率、延迟、吞吐、ATP/AT²P 等。区分 reported 与 recomputed。>
+
+### 5.4 Ablation / Design-Space Exploration
+
+<有真正的消融/参数扫描/多设计点时保留，否则删除。>
 
 ## 6. 方法分析
 
 ### 6.1 为什么有效？
 
+<瓶颈 → 机制 → 硬件效果 → 实验结果。>
+
 ### 6.2 核心创新
+
+1. <innovation 1>
+2. <innovation 2>
+3. <innovation 3>
 
 ### 6.3 与已有方法的本质区别
 
-### 6.4 关键假设
+| 维度 | Existing approach | This paper |
+| --- | --- | --- |
+| Core mechanism | <...> | <...> |
+| Datapath | <...> | <...> |
+| Memory / scheduling | <...> | <...> |
+| Cost / limitation | <...> | <...> |
+
+### 6.4 代价与适用条件
+
+<说明资源、参数、时序、可扩展性或安全方面的代价。>
 
 ## 7. 局限性
 
 ### 7.1 作者明确提出的局限
 
+<自然段落或 bullet。>
+
 ### 7.2 自己分析得到的局限
+
+1. <limitation>
+2. <limitation>
+3. <limitation>
 
 ## 8. 启发与研究思考
 
+**【Analysis】**
+
+- **假设 1**：<remaining bottleneck + mechanism + minimum experiment + falsification condition>
+- **假设 2**：<optional>
+
 <Aside type='note' title='阅读提示'>
-  本精读中 `【Paper】` 表示论文明确内容，`【Code】` 表示官方代码实现，`【Analysis】`
-  表示基于论文和代码的分析推断。
+  正文默认以论文内容为主；`【Code】` 表示已核验的官方代码/RTL，`【Source】` 表示标准或其他外部一手来源，
+  `【Analysis】` 表示独立分析。为保持可读性，不要求每个自然段重复 `【Paper】`。
 </Aside>

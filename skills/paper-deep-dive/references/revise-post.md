@@ -1,71 +1,61 @@
-# Revise a Paper Deep Dive Post from Reader Feedback
+# Revise a PQC Hardware Paper Deep Dive Post
 
-## Input
+Use this workflow when the user points out problems in an existing `paper-deep-dive-*` post.
 
-The user should provide:
+## 1. Classify feedback
 
-- The target post slug or URL, for example `paper-deep-dive-act`.
-- Reader feedback. It may be raw comments, a review, or a list of requested changes.
+Separate feedback into:
 
-If the target or feedback is missing, ask before guessing.
+- factual/technical error;
+- missing technical depth;
+- structure/editorial problem;
+- source-label overuse;
+- missing figure/table;
+- hardware-metric issue;
+- unclear analysis/novelty claim;
+- blog rendering/frontmatter issue.
 
-## Workflow
+Keep the existing cover during revisions. For a missing cover or an explicit request to replace it, follow `hero-image-usage.md`; use `--replace` for replacement. The selection script also updates the export manifest for HTML-imported posts.
 
-1. Read the existing post and its frontmatter.
-2. Read any linked paper, code, project page, or dataset that is needed to verify feedback.
-3. Classify each feedback item:
-   - **Accuracy**: numbers, formulas, citations, paper facts, code facts.
-   - **Clarity**: confusing explanations, missing variable definitions, ambiguous terms.
-   - **Structure**: missing sections, wrong heading levels, excessive length.
-   - **Depth**: missing modules, training/inference details, experiments, limitations.
-   - **Figures**: missing paper figures, wrong figure placement, cropped or unreadable figures.
-   - **Format**: LaTeX, tables, pseudocode components, labels, links, frontmatter.
-4. Verify before editing:
-   - If feedback claims a factual error, confirm it against the paper or code.
-   - If feedback conflicts with the paper, keep the paper fact and tell the user.
-   - If feedback is a subjective request, apply it only when it improves the post without introducing unsupported claims.
-5. Plan edits in order:
-   - Fix accuracy first.
-   - Improve clarity and structure next.
-   - Add or condense depth based on the feedback.
-   - Add, replace, or move paper figures when feedback asks for more visual explanation.
-   - Fix formatting and metadata last.
-6. Apply edits:
-   - Preserve the slug unless the user asks to change it.
-   - Keep `category: 'research'` and the `paper-deep-dive-` prefix.
-   - Keep or refine `paper` frontmatter metadata.
-   - Update `updatedDate` to the current date.
-   - If `description` or `title` changes, respect schema limits.
-   - Keep `【Paper】`, `【Code】`, and `【Analysis】` labels accurate.
-   - Keep using `Algorithm` / `AlgorithmStep` for pseudocode.
-   - Keep or restore key paper figures and their source labels.
-   - Keep the required structure unless the user explicitly requests a structural change.
-7. Validate:
+## 2. Preserve verified content
 
-```bash
-npm run check
-```
+Do not rewrite the whole article merely for style.
 
-Run `npm run build` when the change touches config, routes, or shared components.
+Keep:
+- verified paper facts;
+- correct formulas;
+- useful figures;
+- validated hardware tables;
+- working links.
 
-## Feedback Mapping Examples
+Rewrite only the affected sections plus any dependent statements.
 
-| Feedback                | Action                                                                                                         |
-| ----------------------- | -------------------------------------------------------------------------------------------------------------- |
-| "这个数字不对"          | Verify against the paper/code, correct it, and keep the correct label.                                         |
-| "4.1 看不懂"            | Rewrite the data-flow explanation and ASCII diagram.                                                           |
-| "缺少训练细节"          | Add Training Data, Loss, Optimizer, and pipeline details from the paper/code.                                  |
-| "文章太长"              | Condense optional sections such as related work and research directions; keep method and experiments.          |
-| "伪代码格式不统一"      | Replace plain algorithm text with `Algorithm` / `AlgorithmStep`.                                               |
-| "公式变量没解释"        | Add variable definitions to every formula.                                                                     |
-| "缺少架构图"            | Extract the relevant figure with `references/extract-paper-figures.md` and insert it in the matching section.  |
-| "图片看不清"            | Re-crop the figure at higher resolution and verify the labels remain readable.                                 |
-| "白边空隙太大"          | Re-crop the figure from the LaTeX source using the paper's `trim` parameters, then replace the URL.            |
-| "图片无法显示"          | Check `curl` status and use the GitHub Raw fallback if the custom-domain URL returns 404.                      |
-| "正文和 Algorithm 重复" | Remove the duplicated prose or ASCII flow and keep the `Algorithm` component as the authoritative pseudocode.  |
-| "4.1 和训练/推理冲突"   | Keep 4.1 as one architecture figure plus one-sentence data flow; move training/inference loops to 4.4/4.5.     |
-| "封面重复/分配不公"     | Re-run cover selection with `references/hero-image-usage.md`; prefer a count-1 image and update the inventory. |
+## 3. Editorial repair rules
 
-## Output
+Common repairs:
 
-Report the changes you made and the validation commands you ran. If reader feedback could not be applied because it conflicts with the source material, explain why.
+- missing top card → add `PaperRating`;
+- no arXiv → keep the card and omit arXiv-specific fields;
+- missing overview discipline → add `一句话总结` and 2–5 `核心贡献` bullets;
+- too many provenance markers → make paper prose natural and reduce to one `【Paper】` / `【Analysis】` block per subsection when possible;
+- too much prose → convert contributions, settings, resources, limitations, or hypotheses into bullets/tables;
+- weak experiments → enforce `5.1 Experimental Setup`, `5.2 Main Results`, `5.3 资源与效率分析`;
+- weak method analysis → enforce `6.1 为什么有效？`, `6.2 核心创新`, `6.3 与已有方法的本质区别`, `6.4 代价与适用条件`.
+
+## 4. Technical repair
+
+Read `pqc-hardware-checklist.md` for domain gaps.
+
+Read `hardware-metrics.md` when results/ATP/resource claims are involved.
+
+Never introduce an implementation detail only to make the article look complete.
+
+## 5. Dates
+
+Update `updatedDate` for substantive revisions.
+
+## 6. Validate
+
+Run `pnpm check`.
+
+Run `pnpm build` when shared components, schema, routes, or config were changed.
