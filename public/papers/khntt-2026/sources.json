@@ -1,0 +1,114 @@
+{
+  "paper": {
+    "id": "li2026khntt",
+    "title": "KHNTT: A Configurable and High-Performance Polynomial Multiplication Unit Based on FPGA",
+    "authors": ["Bin Li", "Heru Han", "Linying Liu", "Shiliang Yu", "Qinglei Zhou", "Binyong Li"],
+    "doi": "10.1109/TCSI.2026.3667103",
+    "url": "https://doi.org/10.1109/TCSI.2026.3667103",
+    "version": "Final journal issue: IEEE TCAS-I 73(5), May 2026, pp. 3410-3423",
+    "pdf_sha256": "a5b12e59d3fea78d5e893c5916c238539c437d096ec4a092a4392b04fae7a79f",
+    "verified": true,
+    "verification_scope": "Read all 14 pages of the user-provided PDF; visually checked figures and tables. Publisher DOI endpoint was not used to validate full text.",
+    "supports": [
+      "Algorithm and architecture descriptions with section/page/figure locators in the article",
+      "Original reported experimental data in metrics.json",
+      "Paper-stated limitations and future work"
+    ]
+  },
+  "code": {
+    "url": "https://github.com/duclanl405-source/KHNTT",
+    "commit": "6217c531212369b04fc92c085db6733c2840fcf4",
+    "verified": true,
+    "verification_scope": "Static inspection only; no RTL simulation, synthesis, place-and-route or on-board measurement.",
+    "locators": [
+      {
+        "path": "KNTT-C/kntt/kntt.cpp",
+        "line": 272,
+        "supports": "Four-way Karatsuba reference function poly_2Iptntt_kara"
+      },
+      {
+        "path": "PTNTT-Radix4-Python/poly_ptntt_radix_4.py",
+        "supports": "Radix-4 transforms and PtNTT test-vector generation; not the identical optimized ten-product flow"
+      },
+      {
+        "path": "KHNTT-Hardware/256/src/NTT_TOP.v",
+        "line": 79,
+        "supports": "Compute counter excludes parameter/twiddle loading states"
+      },
+      {
+        "path": "KHNTT-Hardware/256/src/NTT_TOP.v",
+        "line": 196,
+        "supports": "Parameter loading"
+      },
+      {
+        "path": "KHNTT-Hardware/256/src/modular_mul.v",
+        "line": 29,
+        "supports": "Fixed q parameter 8380417 and fixed bit-slice reduction in this version"
+      },
+      {
+        "path": "KHNTT-Hardware/256/tb/tb_ntt.v",
+        "line": 1,
+        "supports": "Machine-specific testbench paths"
+      },
+      {
+        "path": "KHNTT-Hardware/256/src/compact_bf.v",
+        "supports": "Mode-dependent PE wiring and output delay alignment"
+      },
+      {
+        "path": "KHNTT-Hardware/256/src/defines.v",
+        "supports": "Compile-time ring size and data width"
+      }
+    ]
+  },
+  "independent_analysis": {
+    "script": "verification.py",
+    "results": "verification-results.json",
+    "verification_scope": "25 deterministic input cases across five parameter sets check the rewritten four-way identity against independent schoolbook negacyclic multiplication; operation-count and metric arithmetic checks. Not an implementation or security proof."
+  },
+  "figure_inventory": [
+    {
+      "number": 1,
+      "page": 3416,
+      "subject": "Overall architecture",
+      "included": true
+    },
+    {
+      "number": 2,
+      "page": 3417,
+      "subject": "KHNTT computation graph",
+      "included": true
+    },
+    {
+      "number": 3,
+      "page": 3417,
+      "subject": "Unified butterfly",
+      "included": true
+    },
+    {
+      "number": 4,
+      "page": 3418,
+      "subject": "Data scheduling",
+      "included": true
+    },
+    {
+      "number": 5,
+      "page": 3418,
+      "subject": "Bank permutation",
+      "included": true
+    },
+    {
+      "number": 6,
+      "page": 3419,
+      "subject": "Multiplication-count comparison",
+      "included": false,
+      "reason": "The relevant count is derived and numerically recomputed in article section 4.2."
+    }
+  ],
+  "evidence_gaps": [
+    "No full RTL/FPGA reproduction",
+    "No independent revalidation of cited baseline papers",
+    "No established all-parameter RTC coverage in inspected code",
+    "No side-channel evaluation",
+    "TP unit and several source numeric/pseudocode inconsistencies"
+  ]
+}

@@ -1,0 +1,47 @@
+[
+  {
+    "figure": 1,
+    "pdf_page": 7,
+    "printed_page": 3416,
+    "crop_points": [319, 238, 562, 427],
+    "file": "figures/fig1.png",
+    "width": 972,
+    "height": 756
+  },
+  {
+    "figure": 2,
+    "pdf_page": 8,
+    "printed_page": 3417,
+    "crop_points": [49, 53, 298, 220],
+    "file": "figures/fig2.png",
+    "width": 996,
+    "height": 668
+  },
+  {
+    "figure": 3,
+    "pdf_page": 8,
+    "printed_page": 3417,
+    "crop_points": [311, 53, 562, 218],
+    "file": "figures/fig3.png",
+    "width": 1004,
+    "height": 660
+  },
+  {
+    "figure": 4,
+    "pdf_page": 9,
+    "printed_page": 3418,
+    "crop_points": [48, 53, 302, 177],
+    "file": "figures/fig4.png",
+    "width": 1016,
+    "height": 496
+  },
+  {
+    "figure": 5,
+    "pdf_page": 9,
+    "printed_page": 3418,
+    "crop_points": [311, 54, 565, 175],
+    "file": "figures/fig5.png",
+    "width": 1016,
+    "height": 484
+  }
+]

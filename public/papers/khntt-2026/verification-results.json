@@ -1,0 +1,54 @@
+{
+  "scope": "Independent algebra and arithmetic only; no RTL or place-and-route reproduction",
+  "seed": 20261007,
+  "identity_checks": [
+    {
+      "n": 16,
+      "q": 97,
+      "cases_passed": 5
+    },
+    {
+      "n": 64,
+      "q": 3329,
+      "cases_passed": 5
+    },
+    {
+      "n": 256,
+      "q": 3329,
+      "cases_passed": 5
+    },
+    {
+      "n": 256,
+      "q": 8380417,
+      "cases_passed": 5
+    },
+    {
+      "n": 1024,
+      "q": 12289,
+      "cases_passed": 5
+    }
+  ],
+  "operation_counts": [
+    {
+      "n": 256,
+      "baseline_modmul": 3328,
+      "khntt_modmul": 3136,
+      "reduction_pct": 5.769230769230769
+    },
+    {
+      "n": 1024,
+      "baseline_modmul": 16384,
+      "khntt_modmul": 15616,
+      "reduction_pct": 4.6875
+    }
+  ],
+  "schedule_wait_reduction_pct": 48.68421052631579,
+  "schedule_total_cycle_reduction_pct": 11.144578313253012,
+  "ctc_a7_4bu_atp_recomputed": 9.9936,
+  "ctc_a7_8bu_atp_recomputed": 16.57968,
+  "ctc_a7_4_to_8_bu_speedup": 1.1538461538461537,
+  "rtc_1024_tp_mbit_s": 8192.0,
+  "rtc_1024_tp_decimal_MB_s": 1024.0,
+  "kyber_barrett_u_floor": 5039,
+  "kyber_u_reported": 5040
+}
