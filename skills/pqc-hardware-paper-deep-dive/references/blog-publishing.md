@@ -25,3 +25,9 @@ python "<skill-root>/scripts/publish_blog.py" --paper-dir "<paper-dir>" --blog-r
 `--build` 执行本地检查和构建；加 `--publish` 则在构建通过后提交本次导出的文件并推送到 `origin/main`，由博客已有 GitHub Actions 部署。仓库和分支可用 `--remote`、`--branch` 指定。用户要求发布或试跑完整推送流程时可直接执行，否则先交付本地预览。
 
 修订正文后重新生成 PDF，再用同一 slug 导出；首次发布日期保留，更新日期自动记录。正文修改在 `article.html` 完成。`--draft` 会设置博客草稿字段，静态资源仍属于公开站点资源。发布后检查 Actions 状态、文章网址、图像和 PDF 链接。
+
+## 发布地址与入口核验
+
+- 本博客的论文精读归入 `category: 'research'`，正式发布时不得设为草稿。统一阅读入口是 `https://agusexp25.top/blog/research/`，该列表根据文章分类自动生成卡片。
+- 正文使用 `https://agusexp25.top/blog/paper-deep-dive-<slug>/`；Research 是分类列表，不是正文 URL 的父目录，无需另建 `/blog/research/<slug>/`。
+- 发布完成后，除核对对应提交的部署结果，还必须打开 Research 列表，确认文章卡片及其排序位置，再从卡片进入正文，核验标题、内容与图片。新笔记按发布日期、修订按真实更新日期参与排序；卡片缺失或位置异常时检查分类、草稿状态、日期排序和分页，不能只凭正文 URL 返回成功就认定发布完成，也不要为置顶伪造更新日期。
